@@ -1,12 +1,14 @@
 import React, { useState } from "react";
+import DeleteIcon from "@mui/icons-material/Delete";
+
 import {
   TextField,
-  Container,
   Box,
   Button,
   List,
   ListItem,
   ListItemText,
+  IconButton,
 } from "@mui/material";
 function Input() {
   const [values, setValues] = useState("");
@@ -17,12 +19,21 @@ function Input() {
       setValues(""); // clear input
     }
   };
+  // delete the task
+  const handleDelete = (indexToDelete) => {
+    const updatedTasks = tasks.filter((_, index) => index !== indexToDelete); //updatedtask is a new array
+    setTasks(updatedTasks);
+  };
   return (
     <div>
-        
-      <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" >
-      <h1>Todo list</h1>
-     
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        flexDirection="column"
+      >
+        <h1>Todo list</h1>
+
         <Box
           display="flex"
           justifyContent="center"
@@ -47,16 +58,22 @@ function Input() {
             Add
           </Button>
         </Box>
-       
       </Box>
       <Box>
-         {/* Task List */}
-         <Box display="flex" justifyContent="center" mt={4}>
+        {/* Task List */}
+        <Box display="flex" justifyContent="center" mt={4}>
           <List sx={{ width: "50%" }}>
             {tasks.map((task, index) => {
               return (
                 <ListItem key={index} sx={{ borderBottom: "1px solid #ccc" }}>
                   <ListItemText>{task}</ListItemText>
+                  <IconButton
+                    onClick={() => handleDelete(index)}
+                    edge="end"
+                    aria-label="delete"
+                  >
+                    <DeleteIcon />
+                  </IconButton>
                 </ListItem>
               );
             })}
